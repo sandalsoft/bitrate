@@ -18,14 +18,17 @@ module.exports = {
     return bytes / seconds / divisor
   },
 
-  formattedBitrate: function (bytes, seconds, fpAccuracy) {
-    if (bytes === undefined || bytes === null || bytes === 0) throw new Error('\'bytes\' is a required parameter')
-    if (seconds === undefined || seconds === null || seconds === 0) throw new Error('\'seconds\' is a required parameter')
+  formattedBitrate: function (bytes, seconds, fpAccuracy, undefinedFormatStr) {
     if (fpAccuracy === undefined || fpAccuracy === null) fpAccuracy = 2
-
-    let bitSuffixes = ['bps', 'kbps', 'mbps', 'gbps', 'tbps', 'pbps', 'ebps', 'zbps', 'ybps']
+ 
+    // return 'n/a' for undefined rate
+    if (undefinedFormatStr === undefined || undefinedFormatStr === null) undefinedFormatStr = 'n/a'
+    let bitSuffixes = ['b/s', 'Kb/s', 'Mb/s', 'Gb/s', 'Tb/s', 'Pb/s', 'Eb/s', 'Zb/s', 'Yb/s']
     let bps = bytes / seconds / 0.125
     let formattedRate = _formatRate(bps, bitSuffixes, fpAccuracy)
+
+    // if the computed and formatted rate doesn't have a value, return the default
+    if (formattedRate === undefined || formattedRate === null) return undefinedFormatStr
     return formattedRate
   }
 }
