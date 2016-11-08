@@ -1,5 +1,19 @@
 ﻿var test = require('tape')
-var bitrate = require('../index.js')
+var bitrate = require('../index.js').bitrate
+var formattedBitrate = require('../index.js').formattedBitrate
+
+test('autoformatting functionality', function (t) {
+  // Verified using https://www.dslreports.com/calculator
+  t.equal(formattedBitrate(71471001, 0.73, 1), '783.2 mbps')
+  t.equal(formattedBitrate(71471001, 0.73, 2), '783.24 mbps')
+  t.equal(formattedBitrate(1813, 1.03, 2), '14.08 kbps')
+  t.equal(formattedBitrate(769, 4.73, 4), '1.3000 kbps')
+  t.equal(formattedBitrate(10246228711, 0.87, 3), '94.220 gbps')
+  t.equal(formattedBitrate(10246228711, 0.87, 0), '94 gbps')
+  t.equal(formattedBitrate(86135861356711, 0.37, 5), '1.86000 pbps')
+  t.equal(formattedBitrate(1000813716663818711, 0.87, 1), '9.2 ebps')
+  t.end()
+})
 
 test('basic functionality', function (t) {
 	t.equal(bitrate(6000000, 150, 'bps'), 320000)
