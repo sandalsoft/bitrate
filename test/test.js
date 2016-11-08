@@ -4,6 +4,7 @@ var formattedBitrate = require('../index.js').formattedBitrate
 
 test('autoformatting functionality', function (t) {
   // Verified using https://www.dslreports.com/calculator
+  t.equal(formattedBitrate(126, 12.1, 0), '83 bps')
   t.equal(formattedBitrate(71471001, 0.73, 1), '783.2 Mb/s')
   t.equal(formattedBitrate(71471001, 0.73, 2), '783.24 Mb/s')
   t.equal(formattedBitrate(1813, 1.03, 2), '14.08 Kb/s')
@@ -12,6 +13,8 @@ test('autoformatting functionality', function (t) {
   t.equal(formattedBitrate(10246228711, 0.87, 0), '94 Gb/s')
   t.equal(formattedBitrate(86135861356711, 0.37, 5), '1.86000 Pb/s')
   t.equal(formattedBitrate(1000813716663818711, 0.87, 1), '9.2 Eb/s')
+  t.equal(formattedBitrate(0, 69, 2, 'N|A'), 'N|A')
+  t.equal(formattedBitrate(0, 69), 'n/a') // test default params
   t.end()
 })
 

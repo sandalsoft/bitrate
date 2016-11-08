@@ -21,14 +21,17 @@ module.exports = {
   formattedBitrate: function (bytes, seconds, fpAccuracy, undefinedFormatStr) {
     if (fpAccuracy === undefined || fpAccuracy === null) fpAccuracy = 2
  
-    // return 'n/a' for undefined rate
+    // Default to 'n/a' for undefined return value
     if (undefinedFormatStr === undefined || undefinedFormatStr === null) undefinedFormatStr = 'n/a'
-    let bitSuffixes = ['b/s', 'Kb/s', 'Mb/s', 'Gb/s', 'Tb/s', 'Pb/s', 'Eb/s', 'Zb/s', 'Yb/s']
+    let bitSuffixes = ['bps', 'Kb/s', 'Mb/s', 'Gb/s', 'Tb/s', 'Pb/s', 'Eb/s', 'Zb/s', 'Yb/s']
     let bps = bytes / seconds / 0.125
-    let formattedRate = _formatRate(bps, bitSuffixes, fpAccuracy)
-
-    // if the computed and formatted rate doesn't have a value, return the default
-    if (formattedRate === undefined || formattedRate === null) return undefinedFormatStr
+    let computedRate = _formatRate(bps, bitSuffixes, fpAccuracy)
+    
+    // if the computed and formatted rate doesn't have a value, 
+    // return the default
+    // else return the formatted value
+    let formattedRate = (computedRate === undefined || computedRate === null) ? undefinedFormatStr : computedRate
+    // console.log(formattedRate)  // useful for testing
     return formattedRate
   }
 }
