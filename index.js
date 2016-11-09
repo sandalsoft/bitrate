@@ -3,38 +3,38 @@ var DIVISORS = {
   kbps: 125,
   mbps: 125000,
   Bps: 1,
-  KBps: 1000,
+  KBps: 1000, 
   MBps: 1000000
 }
 
-module.exports = {
-  bitrate: function (bytes, seconds, format) {
-    if (format === undefined || format === null) format = 'kbps'
-    if (typeof format !== 'string') throw new TypeError("Expected 'format' to be a string")
-    format = format.replace('/', 'p')
+exports.bitrate = function(bytes, seconds, format) {
+  if (format === undefined || format === null) format = 'kbps'
+  if (typeof format !== 'string') throw new TypeError("Expected 'format' to be a string")
+  format = format.replace('/', 'p')
 
-    var divisor = DIVISORS[format]
-    if (!divisor) throw new Error("'format' is an invalid string")
-    return bytes / seconds / divisor
-  },
-
-  formattedBitrate: function (bytes, seconds, fpAccuracy, undefinedFormatStr) {
-    if (fpAccuracy === undefined || fpAccuracy === null) fpAccuracy = 2
- 
-    // Default to 'n/a' for undefined return value
-    if (undefinedFormatStr === undefined || undefinedFormatStr === null) undefinedFormatStr = 'n/a'
-    let bitSuffixes = ['bps', 'Kb/s', 'Mb/s', 'Gb/s', 'Tb/s', 'Pb/s', 'Eb/s', 'Zb/s', 'Yb/s']
-    let bps = bytes / seconds / 0.125
-    let computedRate = _formatRate(bps, bitSuffixes, fpAccuracy)
-    
-    // if the computed and formatted rate doesn't have a value, 
-    // return the default
-    // else return the formatted value
-    let formattedRate = (computedRate === undefined || computedRate === null) ? undefinedFormatStr : computedRate
-    // console.log(formattedRate)  // useful for testing
-    return formattedRate
-  }
+  var divisor = DIVISORS[format]
+  if (!divisor) throw new Error("'format' is an invalid string")
+  return bytes / seconds / divisor
 }
+
+exports.formattedBitrate = function (bytes, seconds, fpAccuracy, undefinedFormatStr) {
+  if (fpAccuracy === undefined || fpAccuracy === null) fpAccuracy = 2
+
+  // Default to 'n/a' for undefined return value
+  if (undefinedFormatStr === undefined || undefinedFormatStr === null) undefinedFormatStr = 'n/a'
+  let bitSuffixes = ['bps', 'Kb/s', 'Mb/s', 'Gb/s', 'Tb/s', 'Pb/s', 'Eb/s', 'Zb/s', 'Yb/s']
+  let bps = bytes / seconds / 0.125
+  let computedRate = _formatRate(bps, bitSuffixes, fpAccuracy)
+  
+  // if the computed and formatted rate doesn't have a value, 
+  // return the default
+  // else return the formatted value
+  let formattedRate = (computedRate === undefined || computedRate === null) ? undefinedFormatStr : computedRate
+  // console.log(formattedRate)  // useful for testing
+  return formattedRate
+}
+
+
 
 /**
  * Iterates over powers of 1000 and bitSuffixes array to determine which 

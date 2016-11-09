@@ -1,6 +1,6 @@
 ﻿var test = require('tape')
 var bitrate = require('../index.js').bitrate
-var formattedBitrate = require('../index.js').formattedBitrate
+var formattedBitrate = require('../index').formattedBitrate
 
 test('autoformatting functionality', function (t) {
   // Verified using https://www.dslreports.com/calculator
